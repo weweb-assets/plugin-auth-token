@@ -22,8 +22,10 @@ export default {
         wwLib.wwVariable.updateValue(`${this.id}-token`, token);
     },
     async getUser() {
-        const { userEndpoint, type, name } = this.settings.publicData.if(userEndpoint);
+        const { userEndpoint, type, name } = this.settings.publicData;
         const token = wwLib.wwVariable.getValue(`${this.id}-token`);
+
+        if (!userEndpoint || !type) return;
 
         try {
             const { data } = await axios.get(userEndpoint, { headers: buildHeader(type, name, token) });
