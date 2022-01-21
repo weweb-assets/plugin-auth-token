@@ -3,6 +3,7 @@ import './components/Configuration/SettingsEdit.vue';
 import './components/Configuration/SettingsSummary.vue';
 import './components/Redirections/SettingsEdit.vue';
 import './components/Redirections/SettingsSummary.vue';
+import './components/Functions/StoreToken.vue';
 /* wwEditor:end */
 
 export default {
