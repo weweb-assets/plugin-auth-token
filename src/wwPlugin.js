@@ -27,7 +27,7 @@ export default {
         Auth Token API
     \================================================================================================*/
     storeToken(token) {
-        window.vm.config.globalProperties.$cookie.setCookie(COOKIE_NAME);
+        window.vm.config.globalProperties.$cookie.setCookie(COOKIE_NAME, token);
         wwLib.wwVariable.updateValue(`${this.id}-token`, token);
     },
     removeToken() {
