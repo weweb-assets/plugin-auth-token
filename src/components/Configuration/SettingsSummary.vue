@@ -6,7 +6,7 @@
                 <span class="auth-token-settings-summary__value caption-m">{{ settings.publicData.userEndpoint }}</span>
             </div>
         </wwEditorFormRow>
-           <wwEditorFormRow label="Type">
+        <wwEditorFormRow label="Type">
             <div class="auth-token-settings-summary__elem">
                 <div><wwEditorIcon large name="object" class="auth-token-settings-summary__icon" /></div>
                 <span class="auth-token-settings-summary__value caption-m">{{ settings.publicData.type }}</span>

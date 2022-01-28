@@ -1,1 +1,1 @@
-# Auth Token plugin
+# Auth Token

@@ -48,7 +48,7 @@ export default {
             typeOptions: [
                 { label: 'Auth Bearer Token', value: 'bearer-token' },
                 { label: 'Auth Basic Token', value: 'basic-token' },
-                { label: 'Cookie', value: 'cookie' },
+                // { label: 'Cookie', value: 'cookie' },
                 { label: 'Custom Header', value: 'custom-header' },
             ],
         };
