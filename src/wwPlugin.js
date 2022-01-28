@@ -11,7 +11,7 @@ export default {
         Plugin API
     \================================================================================================*/
     async onLoad() {
-        await this.getUser();
+        await this.fetchUser();
     },
     /*=============================================m_ÔÔ_m=============================================\
         Auth API
@@ -19,10 +19,10 @@ export default {
     /* wwEditor:start */
     // async getRoles() {},
     /* wwEditor:end */
-    storeToken([token]) {
+    storeToken(token) {
         wwLib.wwVariable.updateValue(`${this.id}-token`, token);
     },
-    async getUser() {
+    async fetchUser() {
         const { userEndpoint, type, name } = this.settings.publicData;
         const token = wwLib.wwVariable.getValue(`${this.id}-token`);
 
@@ -32,10 +32,12 @@ export default {
             const { data } = await axios.get(userEndpoint, { headers: buildHeader(type, name, token) });
             wwLib.wwVariable.updateValue(`${this.id}-user`, data);
             wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, true);
+            return data;
         } catch (err) {
             wwLib.wwVariable.updateValue(`${this.id}-user`, null);
             wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, false);
         }
+        return null;
     },
 };
 

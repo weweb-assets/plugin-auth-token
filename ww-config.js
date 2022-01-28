@@ -41,5 +41,10 @@ export default {
             },
             /* wwEditor:end */
         },
+        {
+            name: 'Fetch User',
+            code: 'fetchUser',
+            parameters: [],
+        },
     ],
 };
