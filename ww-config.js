@@ -31,6 +31,12 @@ export default {
     ],
     functions: [
         {
+            name: 'Fetch User',
+            code: 'fetchUser',
+            parameters: [],
+            isAsync: true,
+        },
+        {
             name: 'Store token',
             code: 'storeToken',
             parameters: [{ name: 'Token', type: 'string' }],
@@ -42,8 +48,8 @@ export default {
             /* wwEditor:end */
         },
         {
-            name: 'Fetch User',
-            code: 'fetchUser',
+            name: 'Remove token',
+            code: 'removeToken',
             parameters: [],
         },
     ],

@@ -6,11 +6,15 @@ import './components/Redirections/SettingsSummary.vue';
 import './components/Functions/StoreToken.vue';
 /* wwEditor:end */
 
+const COOKIE_NAME = 'ww-auth-token';
+
 export default {
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
     \================================================================================================*/
     async onLoad() {
+        const token = window.vm.config.globalProperties.$cookie.getCookie(COOKIE_NAME);
+        wwLib.wwVariable.updateValue(`${this.id}-token`, token);
         await this.fetchUser();
     },
     /*=============================================m_ÔÔ_m=============================================\
@@ -19,14 +23,23 @@ export default {
     /* wwEditor:start */
     // async getRoles() {},
     /* wwEditor:end */
+    /*=============================================m_ÔÔ_m=============================================\
+        Auth Token API
+    \================================================================================================*/
     storeToken(token) {
+        window.vm.config.globalProperties.$cookie.setCookie(COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-token`, token);
+    },
+    removeToken() {
+        window.vm.config.globalProperties.$cookie.removeCookie(COOKIE_NAME);
+        wwLib.wwVariable.updateValue(`${this.id}-token`, null);
     },
     async fetchUser() {
         const { userEndpoint, type, name } = this.settings.publicData;
         const token = wwLib.wwVariable.getValue(`${this.id}-token`);
 
-        if (!userEndpoint || !type) return;
+        if (!userEndpoint) throw new Error('No user endpoint defined.');
+        if (!type) throw new Error('No Auth type defined.');
 
         try {
             const { data } = await axios.get(userEndpoint, { headers: buildHeader(type, name, token) });
