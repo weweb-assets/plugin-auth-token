@@ -15,7 +15,7 @@ export default {
     async onLoad() {
         const token = window.vm.config.globalProperties.$cookie.getCookie(COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-token`, token);
-        await this.fetchUser();
+        if (token) await this.fetchUser();
     },
     /*=============================================m_ÔÔ_m=============================================\
         Auth API
@@ -47,10 +47,14 @@ export default {
             wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, true);
             return data;
         } catch (err) {
-            wwLib.wwVariable.updateValue(`${this.id}-user`, null);
-            wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, false);
+            this.logout();
+            throw err;
         }
-        return null;
+    },
+    logout() {
+        this.removeToken();
+        wwLib.wwVariable.updateValue(`${this.id}-user`, null);
+        wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, false);
     },
 };
 

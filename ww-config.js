@@ -48,8 +48,8 @@ export default {
             /* wwEditor:end */
         },
         {
-            name: 'Remove token',
-            code: 'removeToken',
+            name: 'Logout',
+            code: 'logout',
             parameters: [],
         },
     ],
