@@ -1,15 +1,23 @@
 <template>
     <div class="auth-token-settings-summary">
+        <wwEditorFormRow label="Type">
+            <div class="auth-token-settings-summary__elem">
+                <div><wwEditorIcon large name="auth" class="auth-token-settings-summary__icon" /></div>
+                <span class="auth-token-settings-summary__value caption-m">{{ settings.publicData.type }}</span>
+            </div>
+        </wwEditorFormRow>
         <wwEditorFormRow label="User endpoint">
             <div class="auth-token-settings-summary__elem">
                 <div><wwEditorIcon large name="link" class="auth-token-settings-summary__icon" /></div>
                 <span class="auth-token-settings-summary__value caption-m">{{ settings.publicData.userEndpoint }}</span>
             </div>
         </wwEditorFormRow>
-        <wwEditorFormRow label="Type">
+        <wwEditorFormRow v-if="settings.publicData.refreshTokenEndpoint" label="Refresh token endpoint">
             <div class="auth-token-settings-summary__elem">
-                <div><wwEditorIcon large name="object" class="auth-token-settings-summary__icon" /></div>
-                <span class="auth-token-settings-summary__value caption-m">{{ settings.publicData.type }}</span>
+                <div><wwEditorIcon large name="link" class="auth-token-settings-summary__icon" /></div>
+                <span class="auth-token-settings-summary__value caption-m">
+                    {{ settings.publicData.refreshTokenEndpoint }}
+                </span>
             </div>
         </wwEditorFormRow>
     </div>

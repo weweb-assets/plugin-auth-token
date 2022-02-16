@@ -22,11 +22,12 @@ export default {
                 },
             },
         ],
-        designSystemId: 'ec2eebfe-499b-43c4-b260-80ee5a4d9504',
+        // designSystemId: 'ec2eebfe-499b-43c4-b260-80ee5a4d9504',
     },
     variables: [
         { name: 'user', value: 'user', type: 'object', defaultValue: null },
-        { name: 'token', value: 'token', type: 'string', defaultValue: null },
+        { name: 'access token', value: 'access-token', type: 'string', defaultValue: null },
+        { name: 'refresh token', value: 'refresh-token', type: 'string', defaultValue: null },
         { name: 'isAuthenticated', value: 'isAuthenticated', type: 'boolean', defaultValue: false },
     ],
     functions: [
@@ -39,11 +40,14 @@ export default {
         {
             name: 'Store token',
             code: 'storeToken',
-            parameters: [{ name: 'Token', type: 'string' }],
+            parameters: [
+                { name: 'Access token', type: 'string' },
+                { name: 'Refresh token', type: 'string' },
+            ],
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/StoreToken.vue'),
-            getIsValid([token]) {
-                return !!token;
+            getIsValid([accessToken]) {
+                return !!accessToken;
             },
             /* wwEditor:end */
         },
