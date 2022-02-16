@@ -26,8 +26,8 @@ export default {
     },
     variables: [
         { name: 'user', value: 'user', type: 'object', defaultValue: null },
-        { name: 'access token', value: 'access-token', type: 'string', defaultValue: null },
-        { name: 'refresh token', value: 'refresh-token', type: 'string', defaultValue: null },
+        { name: 'accessToken', value: 'accessToken', type: 'string', defaultValue: null },
+        { name: 'refreshToken', value: 'refreshToken', type: 'string', defaultValue: null },
         { name: 'isAuthenticated', value: 'isAuthenticated', type: 'boolean', defaultValue: false },
     ],
     functions: [

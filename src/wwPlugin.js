@@ -16,8 +16,8 @@ export default {
     async onLoad() {
         const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
         const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
-        wwLib.wwVariable.updateValue(`${this.id}-access-token`, accessToken);
-        wwLib.wwVariable.updateValue(`${this.id}-refresh-token`, refreshToken);
+        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
+        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
         axios.interceptors.response.use(null, async function (error) {
             const status = error.response ? error.response.status : null;
             if (status === 401) {
@@ -41,22 +41,22 @@ export default {
     storeToken(accessToken, refreshToken) {
         if (accessToken) {
             window.vm.config.globalProperties.$cookie.setCookie(ACCESS_COOKIE_NAME, accessToken);
-            wwLib.wwVariable.updateValue(`${this.id}-access-token`, accessToken);
+            wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         }
         if (refreshToken) {
             window.vm.config.globalProperties.$cookie.setCookie(REFRESH_COOKIE_NAME, refreshToken);
-            wwLib.wwVariable.updateValue(`${this.id}-refresh-token`, refreshToken);
+            wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
         }
     },
     removeToken() {
         window.vm.config.globalProperties.$cookie.removeCookie(ACCESS_COOKIE_NAME);
-        wwLib.wwVariable.updateValue(`${this.id}-access-token`, null);
+        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, null);
         window.vm.config.globalProperties.$cookie.removeCookie(REFRESH_COOKIE_NAME);
-        wwLib.wwVariable.updateValue(`${this.id}-refresh-token`, null);
+        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, null);
     },
     async fetchUser() {
         const { userEndpoint, type, name } = this.settings.publicData;
-        const accessToken = wwLib.wwVariable.getValue(`${this.id}-access-token`);
+        const accessToken = wwLib.wwVariable.getValue(`${this.id}-accessToken`);
 
         if (!userEndpoint) throw new Error('No user endpoint defined.');
         if (!type) throw new Error('No Auth type defined.');
@@ -73,7 +73,7 @@ export default {
     },
     async refreshToken() {
         const { refreshTokenEndpoint, refreshFieldRequest, refreshFieldResponse } = this.settings.publicData;
-        const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refresh-token`);
+        const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refreshToken`);
 
         if (!refreshTokenEndpoint) throw new Error('No refresh token endpoint defined.');
 
