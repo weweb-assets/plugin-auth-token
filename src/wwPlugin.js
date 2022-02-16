@@ -21,8 +21,12 @@ export default {
         axios.interceptors.response.use(null, async error => {
             const status = error.response ? error.response.status : null;
             if (status === 401) {
-                await this.refreshAccessToken();
-                return axios.request(error.config);
+                try {
+                    await this.refreshAccessToken();
+                    return axios.request(error.config);
+                } catch (err) {
+                    wwLib.wwLog.error('Unable to get access token from refresh token.');
+                }
             }
             return Promise.reject(error);
         });
