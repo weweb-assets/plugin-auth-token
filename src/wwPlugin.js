@@ -34,7 +34,10 @@ export default {
                                 wwLib.wwVariable.getValue(`${this.id}-accessToken`)
                             ),
                         };
-                        return axios.request(error.config).then(() => (isRefreshing = false));
+                        return axios.request(error.config).then(response => {
+                            isRefreshing = false;
+                            return response;
+                        });
                     }
                 } catch (err) {
                     wwLib.wwLog.error('Unable to get access token from refresh token.');
