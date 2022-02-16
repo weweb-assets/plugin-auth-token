@@ -18,11 +18,10 @@ export default {
         const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
-        const _this = this;
         axios.interceptors.response.use(null, async error => {
             const status = error.response ? error.response.status : null;
             if (status === 401) {
-                await _this.refreshToken();
+                await this.refreshAccessToken();
                 return axios.request(error.config);
             }
             return Promise.reject(error);
@@ -72,7 +71,7 @@ export default {
             throw err;
         }
     },
-    async refreshToken() {
+    async refreshAccessToken() {
         const { refreshTokenEndpoint, refreshFieldRequest, refreshFieldResponse } = this.settings.publicData;
         const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refreshToken`);
 
