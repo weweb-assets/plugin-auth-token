@@ -18,14 +18,23 @@ export default {
         const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
+        let isRefreshing = false;
         axios.interceptors.response.use(null, async error => {
             const status = error.response ? error.response.status : null;
             if (status === 401) {
                 try {
                     await this.refreshAccessToken();
-                    if (!error.config.headers['ww-try-refresh']) {
-                        error.config.headers['ww-try-refresh'] = true;
-                        return axios.request(error.config);
+                    if (!isRefreshing) {
+                        isRefreshing = true;
+                        error.config.headers = {
+                            ...error.config.headers,
+                            ...buildHeader(
+                                this.settings.publicData.type,
+                                this.settings.publicData.name,
+                                wwLib.wwVariable.getValue(`${this.id}-accessToken`)
+                            ),
+                        };
+                        return axios.request(error.config).then(() => (isRefreshing = false));
                     }
                 } catch (err) {
                     wwLib.wwLog.error('Unable to get access token from refresh token.');
