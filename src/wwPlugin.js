@@ -23,7 +23,10 @@ export default {
             if (status === 401) {
                 try {
                     await this.refreshAccessToken();
-                    return axios.request(error.config);
+                    if (!error.config.headers['ww-try-refresh']) {
+                        error.config.headers['ww-try-refresh'] = true;
+                        return axios.request(error.config);
+                    }
                 } catch (err) {
                     wwLib.wwLog.error('Unable to get access token from refresh token.');
                 }
