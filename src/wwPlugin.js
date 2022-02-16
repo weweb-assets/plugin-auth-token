@@ -18,10 +18,11 @@ export default {
         const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
+        const _this = this;
         axios.interceptors.response.use(null, async error => {
             const status = error.response ? error.response.status : null;
             if (status === 401) {
-                await this.refreshToken();
+                await _this.refreshToken();
                 return axios.request(error.config);
             }
             return Promise.reject(error);
