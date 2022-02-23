@@ -1,11 +1,20 @@
 <template>
     <wwEditorInputRow
-        label="Token"
+        label="Access token"
         type="query"
-        :model-value="token"
+        :model-value="accessToken"
         bindable
-        placeholder="Enter a token"
-        @update:modelValue="setToken"
+        placeholder="Enter a access token"
+        required
+        @update:modelValue="setAccessToken"
+    />
+    <wwEditorInputRow
+        label="Refresh token"
+        type="query"
+        :model-value="refreshToken"
+        bindable
+        placeholder="Enter a refresh token"
+        @update:modelValue="setRefreshToken"
     />
 </template>
 
@@ -17,13 +26,19 @@ export default {
     },
     emits: ['update:args'],
     computed: {
-        token() {
+        accessToken() {
             return this.args[0];
+        },
+        refreshToken() {
+            return this.args[1];
         },
     },
     methods: {
-        setToken(token) {
-            this.$emit('update:args', [token]);
+        setAccessToken(accessToken) {
+            this.$emit('update:args', [accessToken, this.refreshToken]);
+        },
+        setRefreshToken(refreshToken) {
+            this.$emit('update:args', [this.accessToken, refreshToken]);
         },
     },
 };
