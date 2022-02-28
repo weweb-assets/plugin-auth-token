@@ -40,10 +40,10 @@
                     @update:modelValue="setRefreshFieldRequest"
                 />
             </wwEditorFormRow>
-            <wwEditorFormRow label="Refresh token field response key">
+            <wwEditorFormRow label="Access token field response key">
                 <wwEditorInputText
                     type="text"
-                    placeholder="refresh"
+                    placeholder="access"
                     :model-value="settings.publicData.refreshFieldResponse"
                     @update:modelValue="setRefreshFieldResponse"
                 />
