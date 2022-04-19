@@ -22,23 +22,23 @@
 export default {
     props: {
         plugin: { type: Object, required: true },
-        args: { type: Array, default: () => [null] },
+        args: { type: Object, default: () => ({ accessToken: null, refreshToken: null }) },
     },
     emits: ['update:args'],
     computed: {
         accessToken() {
-            return this.args[0];
+            return this.args.accessToken;
         },
         refreshToken() {
-            return this.args[1];
+            return this.args.refreshToken;
         },
     },
     methods: {
         setAccessToken(accessToken) {
-            this.$emit('update:args', [accessToken, this.refreshToken]);
+            this.$emit('update:args', { ...this.args, accessToken });
         },
         setRefreshToken(refreshToken) {
-            this.$emit('update:args', [this.accessToken, refreshToken]);
+            this.$emit('update:args', { ...this.args, refreshToken });
         },
     },
 };

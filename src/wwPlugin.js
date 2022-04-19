@@ -57,7 +57,7 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
         Auth Token API
     \================================================================================================*/
-    storeToken(accessToken, refreshToken) {
+    storeToken({ accessToken, refreshToken }) {
         if (accessToken) {
             window.vm.config.globalProperties.$cookie.setCookie(ACCESS_COOKIE_NAME, accessToken);
             wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
@@ -98,7 +98,7 @@ export default {
 
         const { data } = await axios.post(refreshTokenEndpoint, { [refreshFieldRequest]: refreshToken });
         const accessToken = _.get(data, refreshFieldResponse, data);
-        this.storeToken(accessToken);
+        this.storeToken({ accessToken });
 
         return data;
     },
