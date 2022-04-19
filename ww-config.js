@@ -41,7 +41,7 @@ export default {
             code: 'storeToken',
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/StoreToken.vue'),
-            getIsValid([accessToken]) {
+            getIsValid({ accessToken }) {
                 return !!accessToken;
             },
             /* wwEditor:end */
