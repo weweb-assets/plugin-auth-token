@@ -30,23 +30,18 @@ export default {
         { name: 'refreshToken', value: 'refreshToken', type: 'string', defaultValue: null },
         { name: 'isAuthenticated', value: 'isAuthenticated', type: 'boolean', defaultValue: false },
     ],
-    functions: [
+    actions: [
         {
             name: 'Fetch User',
             code: 'fetchUser',
-            parameters: [],
             isAsync: true,
         },
         {
             name: 'Store token',
             code: 'storeToken',
-            parameters: [
-                { name: 'Access token', type: 'string' },
-                { name: 'Refresh token', type: 'string' },
-            ],
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/StoreToken.vue'),
-            getIsValid([accessToken]) {
+            getIsValid({ accessToken }) {
                 return !!accessToken;
             },
             /* wwEditor:end */
@@ -54,7 +49,6 @@ export default {
         {
             name: 'Logout',
             code: 'logout',
-            parameters: [],
         },
     ],
 };
