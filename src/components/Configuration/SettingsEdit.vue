@@ -32,7 +32,7 @@
             />
         </wwEditorFormRow>
         <template v-if="settings.publicData.refreshTokenEndpoint">
-            <wwEditorFormRow label="Refresh token field request key">
+            <wwEditorFormRow label="Refresh token field request key (if sent through body)">
                 <wwEditorInputText
                     type="text"
                     placeholder="refresh"
