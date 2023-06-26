@@ -32,9 +32,9 @@
             />
         </wwEditorFormRow>
         <template v-if="settings.publicData.refreshTokenEndpoint">
-            <wwEditorFormRow label="Refresh mode">
+            <wwEditorFormRow label="Refresh token through">
                 <wwEditorInputTextSelect
-                    placeholder="Refresh token type"
+                    placeholder="Select refresh token type"
                     :model-value="settings.publicData.refreshType"
                     :options="refreshTypeOptions"
                     @update:modelValue="setRefreshType"
@@ -69,15 +69,15 @@ export default {
     data() {
         return {
             typeOptions: [
-                { label: 'Refresh Bearer Token', value: 'bearer-token' },
-                { label: 'Refresh Basic Token', value: 'basic-token' },
+                { label: 'Auth Bearer Token', value: 'bearer-token' },
+                { label: 'Auth Basic Token', value: 'basic-token' },
                 { label: 'Custom Header', value: 'custom-header' },
             ],
             refreshTypeOptions: [
-                { label: 'Through request body', value: 'custom-body' },
-                { label: 'Through Bearer Token', value: 'bearer-token' },
-                { label: 'Through Basic Token', value: 'basic-token' },
-                { label: 'Through custom Header', value: 'custom-header' },
+                { label: 'Request Body', value: 'custom-body' },
+                { label: 'Bearer Token Header', value: 'bearer-token' },
+                { label: 'Basic Token Header', value: 'basic-token' },
+                { label: 'Custom Header', value: 'custom-header' },
             ],
         };
     },
