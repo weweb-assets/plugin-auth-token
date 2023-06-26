@@ -89,12 +89,12 @@ export default {
         }
     },
     async refreshAccessToken() {
-        const { refreshTokenEndpoint, refreshFieldRequest, refreshFieldResponse } = this.settings.publicData;
+        const { refreshTokenEndpoint, refreshFieldRequest, refreshFieldResponse, type, name } = this.settings.publicData;
         const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refreshToken`);
 
         if (!refreshTokenEndpoint) throw new Error('No refresh token endpoint defined.');
 
-        const { data } = await axios.post(refreshTokenEndpoint, { [refreshFieldRequest]: refreshToken });
+        const { data } = await axios.post(refreshTokenEndpoint, { [refreshFieldRequest]: refreshToken }, { headers: this.buildHeader(type, name, refreshToken) });
         const accessToken = _.get(data, refreshFieldResponse, data);
         this.storeToken({ accessToken });
 
