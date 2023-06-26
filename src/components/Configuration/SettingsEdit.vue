@@ -32,28 +32,20 @@
             />
         </wwEditorFormRow>
         <template v-if="settings.publicData.refreshTokenEndpoint">
-            <wwEditorFormRow required label="Refresh mode">
+            <wwEditorFormRow label="Refresh mode">
                 <wwEditorInputTextSelect
-                    placeholder="Select a type of refresh mode"
-                    :model-value="settings.publicData.refreshMode"
-                    :options="refreshModeOptions"
-                    @update:modelValue="setRefreshMode"
+                    placeholder="Refresh token type"
+                    :model-value="settings.publicData.refreshType"
+                    :options="refreshTypeOptions"
+                    @update:modelValue="setRefreshType"
                 />
             </wwEditorFormRow>
-            <wwEditorFormRow v-if="!settings.publicData.refreshMode" label="Refresh token field request key">
+            <wwEditorFormRow v-if="['custom-body', 'custom-header'].includes(settings.publicData.refreshType)" label="Refresh token field/header request key">
                 <wwEditorInputText
                     type="text"
                     placeholder="refresh"
                     :model-value="settings.publicData.refreshFieldRequest"
                     @update:modelValue="setRefreshFieldRequest"
-                />
-            </wwEditorFormRow>
-            <wwEditorFormRow v-if="settings.publicData.refreshMode === 'custom-header'" label="Custom refresh header name">
-                <wwEditorInputText
-                    type="text"
-                    placeholder="refresh"
-                    :model-value="settings.publicData.refreshCustomHeader"
-                    @update:modelValue="setRefreshCustomHeader"
                 />
             </wwEditorFormRow>
             <wwEditorFormRow label="Access token field response key">
@@ -81,11 +73,11 @@ export default {
                 { label: 'Refresh Basic Token', value: 'basic-token' },
                 { label: 'Custom Header', value: 'custom-header' },
             ],
-            refreshModeOptions: [
-                { label: 'Through request body', value: null },
-                { label: 'Refresh Bearer Token', value: 'bearer-token' },
-                { label: 'Refresh Basic Token', value: 'basic-token' },
-                { label: 'Custom Header', value: 'custom-header' },
+            refreshTypeOptions: [
+                { label: 'Through request body', value: 'custom-body' },
+                { label: 'Through Bearer Token', value: 'bearer-token' },
+                { label: 'Through Basic Token', value: 'basic-token' },
+                { label: 'Through custom Header', value: 'custom-header' },
             ],
         };
     },
@@ -126,16 +118,10 @@ export default {
                 publicData: { ...this.settings.publicData, refreshFieldResponse: value },
             });
         },
-        setRefreshMode(value) {
+        setRefreshType(value) {
             this.$emit('update:settings', {
                 ...this.settings,
-                publicData: { ...this.settings.publicData, refreshMode: value },
-            });
-        },
-        setRefreshCustomHeader(value) {
-            this.$emit('update:settings', {
-                ...this.settings,
-                publicData: { ...this.settings.publicData, refreshCustomHeader: value },
+                publicData: { ...this.settings.publicData, refreshType: value },
             });
         },
     },
