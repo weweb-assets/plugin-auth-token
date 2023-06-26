@@ -93,9 +93,8 @@ export default {
         const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refreshToken`);
 
         if (!refreshTokenEndpoint) throw new Error('No refresh token endpoint defined.');
-        const isHeader = refreshType !== 'custom-body'
-        const headers = isHeader ? this.buildHeader(refreshType, refreshFieldRequest, refreshToken) : {}
-        const body = !isHeader ? { [refreshFieldRequest]: refreshToken } : {}
+        const headers = this.buildHeader(refreshType, refreshFieldRequest, refreshToken)
+        const body = refreshType === 'custom-body' ? { [refreshFieldRequest]: refreshToken } : {}
         const { data } = await axios.post(refreshTokenEndpoint, body, headers);
         const accessToken = _.get(data, refreshFieldResponse, data);
         this.storeToken({ accessToken });
