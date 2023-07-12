@@ -32,7 +32,15 @@
             />
         </wwEditorFormRow>
         <template v-if="settings.publicData.refreshTokenEndpoint">
-            <wwEditorFormRow label="Refresh token field request key">
+            <wwEditorFormRow label="Refresh token through">
+                <wwEditorInputTextSelect
+                    placeholder="Select refresh token type"
+                    :model-value="settings.publicData.refreshType"
+                    :options="refreshTypeOptions"
+                    @update:modelValue="setRefreshType"
+                />
+            </wwEditorFormRow>
+            <wwEditorFormRow v-if="['custom-body', 'custom-header'].includes(settings.publicData.refreshType)" label="Refresh token field/header request key">
                 <wwEditorInputText
                     type="text"
                     placeholder="refresh"
@@ -63,6 +71,12 @@ export default {
             typeOptions: [
                 { label: 'Auth Bearer Token', value: 'bearer-token' },
                 { label: 'Auth Basic Token', value: 'basic-token' },
+                { label: 'Custom Header', value: 'custom-header' },
+            ],
+            refreshTypeOptions: [
+                { label: 'Request Body', value: 'custom-body' },
+                { label: 'Bearer Token Header', value: 'bearer-token' },
+                { label: 'Basic Token Header', value: 'basic-token' },
                 { label: 'Custom Header', value: 'custom-header' },
             ],
         };
@@ -102,6 +116,12 @@ export default {
             this.$emit('update:settings', {
                 ...this.settings,
                 publicData: { ...this.settings.publicData, refreshFieldResponse: value },
+            });
+        },
+        setRefreshType(value) {
+            this.$emit('update:settings', {
+                ...this.settings,
+                publicData: { ...this.settings.publicData, refreshType: value },
             });
         },
     },
