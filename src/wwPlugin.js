@@ -88,7 +88,6 @@ export default {
             wwLib.wwVariable.updateValue(`${this.id}-isAuthenticated`, true);
             return data;
         } catch (err) {
-            this.logout();
             throw err;
         }
     },
