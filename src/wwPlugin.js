@@ -13,11 +13,7 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
     \================================================================================================*/
-    async onLoad() {
-        const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
-        const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
-        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
-        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
+    async _onLoad() {
         let refreshPromise = null;
         axios.interceptors.response.use(null, async error => {
             const { refreshTokenEndpoint } = this.settings.publicData;
@@ -47,6 +43,12 @@ export default {
             }
             return Promise.reject(error);
         });
+    },
+    async _initAuth() {
+        const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
+        const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
+        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
+        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
 
         if (accessToken) await this.fetchUser();
     },

@@ -1,4 +1,7 @@
 export default {
+    features: {
+        auth: true
+    },
     editor: {
         settings: [
             {
@@ -11,24 +14,12 @@ export default {
                     return !!userEndpoint && !!type;
                 },
             },
-            {
-                label: 'Define redirections (URLs)',
-                icon: 'open-out',
-                edit: () => import('./src/components/Redirections/SettingsEdit.vue'),
-                summary: () => import('./src/components/Redirections/SettingsSummary.vue'),
-                getIsValid(settings) {
-                    const { afterNotSignInPageId } = settings.publicData;
-                    return !!afterNotSignInPageId;
-                },
-            },
         ],
         designSystemId: '34d431d4-405c-4969-8ac6-658be9787c67',
     },
     variables: [
-        { name: 'user', value: 'user', type: 'object', defaultValue: null },
         { name: 'accessToken', value: 'accessToken', type: 'string', defaultValue: null },
         { name: 'refreshToken', value: 'refreshToken', type: 'string', defaultValue: null },
-        { name: 'isAuthenticated', value: 'isAuthenticated', type: 'boolean', defaultValue: false },
     ],
     actions: [
         {
