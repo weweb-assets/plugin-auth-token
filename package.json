@@ -4,6 +4,9 @@
         "type": "git",
         "url": "https://github.com/weweb-assets/plugin-auth-token"
     },
+    "features": {
+        "auth": true
+    },
     "version": "3.1.0",
     "license": "MIT",
     "scripts": {
