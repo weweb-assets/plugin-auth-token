@@ -40,7 +40,10 @@
                     @update:modelValue="setRefreshType"
                 />
             </wwEditorFormRow>
-            <wwEditorFormRow v-if="['custom-body', 'custom-header'].includes(settings.publicData.refreshType)" label="Refresh token field/header request key">
+            <wwEditorFormRow
+                v-if="['custom-body', 'custom-header'].includes(settings.publicData.refreshType)"
+                label="Refresh token field/header request key"
+            >
                 <wwEditorInputText
                     type="text"
                     placeholder="refresh"
@@ -133,7 +136,7 @@ export default {
     display: flex;
     flex-direction: column;
     &__link {
-        color: var(--ww-color-blue-500);
+        color: var(--ww-color-content-brand);
         margin-left: var(--ww-spacing-02);
     }
     &__row {

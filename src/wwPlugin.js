@@ -1,8 +1,6 @@
 /* wwEditor:start */
 import './components/Configuration/SettingsEdit.vue';
 import './components/Configuration/SettingsSummary.vue';
-import './components/Redirections/SettingsEdit.vue';
-import './components/Redirections/SettingsSummary.vue';
 import './components/Functions/StoreToken.vue';
 /* wwEditor:end */
 
@@ -13,16 +11,12 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
     \================================================================================================*/
-    async onLoad() {
-        const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
-        const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
-        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
-        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
+    async _onLoad() {
         let refreshPromise = null;
         axios.interceptors.response.use(null, async error => {
             const { refreshTokenEndpoint } = this.settings.publicData;
-            const isRefreshRequest = error?.response?.config?.url === refreshTokenEndpoint
-            const isRetry = error?.response?.config?.headers['ww-retry']
+            const isRefreshRequest = error?.response?.config?.url === refreshTokenEndpoint;
+            const isRetry = error?.response?.config?.headers['ww-retry'];
             const status = error.response ? error.response.status : null;
             if (status === 401 && !isRefreshRequest && !isRetry) {
                 try {
@@ -47,6 +41,12 @@ export default {
             }
             return Promise.reject(error);
         });
+    },
+    async _initAuth() {
+        const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
+        const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
+        wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
+        wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
 
         if (accessToken) await this.fetchUser();
     },
@@ -92,12 +92,17 @@ export default {
         }
     },
     async refreshAccessToken() {
-        const { refreshTokenEndpoint, refreshFieldRequest, refreshFieldResponse, refreshType = 'custom-body' } = this.settings.publicData;
+        const {
+            refreshTokenEndpoint,
+            refreshFieldRequest,
+            refreshFieldResponse,
+            refreshType = 'custom-body',
+        } = this.settings.publicData;
         const refreshToken = wwLib.wwVariable.getValue(`${this.id}-refreshToken`);
 
         if (!refreshTokenEndpoint) throw new Error('No refresh token endpoint defined.');
-        const headers = buildHeader(refreshType, refreshFieldRequest, refreshToken)
-        const body = refreshType === 'custom-body' ? { [refreshFieldRequest]: refreshToken } : {}
+        const headers = buildHeader(refreshType, refreshFieldRequest, refreshToken);
+        const body = refreshType === 'custom-body' ? { [refreshFieldRequest]: refreshToken } : {};
         const { data } = await axios.post(refreshTokenEndpoint, body, headers);
         const accessToken = _.get(data, refreshFieldResponse, data);
         this.storeToken({ accessToken });
