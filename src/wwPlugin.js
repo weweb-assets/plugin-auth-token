@@ -61,11 +61,17 @@ export default {
     \================================================================================================*/
     storeToken({ accessToken, refreshToken }) {
         if (accessToken) {
-            window.vm.config.globalProperties.$cookie.setCookie(ACCESS_COOKIE_NAME, accessToken);
+            window.vm.config.globalProperties.$cookie.setCookie(ACCESS_COOKIE_NAME, accessToken, {
+                expire: '1y',
+                secure: true,
+            });
             wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         }
         if (refreshToken) {
-            window.vm.config.globalProperties.$cookie.setCookie(REFRESH_COOKIE_NAME, refreshToken);
+            window.vm.config.globalProperties.$cookie.setCookie(REFRESH_COOKIE_NAME, refreshToken, {
+                expire: '1y',
+                secure: true,
+            });
             wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
         }
     },
