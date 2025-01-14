@@ -28,6 +28,13 @@ export default {
             name: 'Fetch User',
             code: 'fetchUser',
             isAsync: true,
+            /* wwEditor:start */
+            copilot: {
+                description: 'Fetches the current user data using the stored access token',
+                returns: 'object',
+                schema: {}
+            },
+            /* wwEditor:end */
         },
         {
             name: 'Store token',
@@ -37,11 +44,34 @@ export default {
             getIsValid({ accessToken }) {
                 return !!accessToken;
             },
+            copilot: {
+                description: 'Stores authentication tokens in cookies and updates plugin variables',
+                returns: 'void',
+                schema: {
+                    accessToken: {
+                        type: 'string',
+                        description: 'The access token to store for authentication',
+                        bindable: true
+                    },
+                    refreshToken: {
+                        type: 'string',
+                        description: 'The refresh token used to obtain new access tokens',
+                        bindable: true
+                    }
+                }
+            },
             /* wwEditor:end */
         },
         {
             name: 'Logout',
             code: 'logout',
+            /* wwEditor:start */
+            copilot: {
+                description: 'Removes stored tokens and resets authentication state',
+                returns: 'void',
+                schema: {}
+            },
+            /* wwEditor:end */
         },
     ],
 };
