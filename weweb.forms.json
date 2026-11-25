@@ -1,7 +1,8 @@
 {
     "schemaVersion": 1,
     "features": {
-        "auth": true
+        "auth": true,
+        "roles": "local"
     },
     "designSystemId": "34d431d4-405c-4969-8ac6-658be9787c67",
     "settings": {
