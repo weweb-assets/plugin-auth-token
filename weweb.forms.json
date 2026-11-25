@@ -1,0 +1,182 @@
+{
+    "schemaVersion": 1,
+    "features": {
+        "auth": true
+    },
+    "designSystemId": "34d431d4-405c-4969-8ac6-658be9787c67",
+    "settings": {
+        "fields": [
+            {
+                "key": "type",
+                "type": "choice",
+                "label": "Auth type",
+                "placeholder": "Select a type of authentication",
+                "required": true,
+                "choices": [
+                    {
+                        "label": "Auth Bearer Token",
+                        "value": "bearer-token"
+                    },
+                    {
+                        "label": "Auth Basic Token",
+                        "value": "basic-token"
+                    },
+                    {
+                        "label": "Custom Header",
+                        "value": "custom-header"
+                    }
+                ],
+                "storage": "publicData"
+            },
+            {
+                "key": "name",
+                "type": "text",
+                "label": "Custom header name",
+                "placeholder": "Enter a header key name",
+                "visibleWhen": {
+                    "field": "type",
+                    "equals": "custom-header"
+                },
+                "storage": "publicData"
+            },
+            {
+                "key": "userEndpoint",
+                "type": "text",
+                "label": "User endpoint",
+                "placeholder": "https://api-url.com/users/me",
+                "required": true,
+                "storage": "publicData"
+            },
+            {
+                "key": "refreshTokenEndpoint",
+                "type": "text",
+                "label": "Refresh token endpoint",
+                "placeholder": "https://api-url.com/token/refresh",
+                "storage": "publicData"
+            },
+            {
+                "key": "refreshType",
+                "type": "choice",
+                "label": "Refresh token through",
+                "placeholder": "Select refresh token type",
+                "choices": [
+                    {
+                        "label": "Request Body",
+                        "value": "custom-body"
+                    },
+                    {
+                        "label": "Bearer Token Header",
+                        "value": "bearer-token"
+                    },
+                    {
+                        "label": "Basic Token Header",
+                        "value": "basic-token"
+                    },
+                    {
+                        "label": "Custom Header",
+                        "value": "custom-header"
+                    }
+                ],
+                "visibleWhen": {
+                    "field": "refreshTokenEndpoint",
+                    "filled": true
+                },
+                "storage": "publicData"
+            },
+            {
+                "key": "refreshFieldRequest",
+                "type": "text",
+                "label": "Refresh token field/header request key",
+                "placeholder": "refresh",
+                "conditions": [
+                    {
+                        "field": "refreshTokenEndpoint",
+                        "filled": true
+                    },
+                    {
+                        "field": "refreshType",
+                        "oneOf": [
+                            "custom-body",
+                            "custom-header"
+                        ]
+                    }
+                ],
+                "storage": "publicData"
+            },
+            {
+                "key": "refreshFieldResponse",
+                "type": "text",
+                "label": "Access token field response key",
+                "placeholder": "access",
+                "visibleWhen": {
+                    "field": "refreshTokenEndpoint",
+                    "filled": true
+                },
+                "storage": "publicData"
+            }
+        ],
+        "summary": [
+            {
+                "field": "type",
+                "label": "Type"
+            },
+            {
+                "field": "userEndpoint"
+            },
+            {
+                "field": "refreshTokenEndpoint"
+            }
+        ]
+    },
+    "variables": [
+        {
+            "name": "user",
+            "type": "object"
+        },
+        {
+            "name": "accessToken",
+            "type": "string"
+        },
+        {
+            "name": "refreshToken",
+            "type": "string"
+        },
+        {
+            "name": "isAuthenticated",
+            "type": "boolean"
+        }
+    ],
+    "actions": [
+        {
+            "name": "Fetch User",
+            "code": "fetchUser",
+            "isAsync": true
+        },
+        {
+            "name": "Store token",
+            "code": "storeToken",
+            "validation": "requiredFields",
+            "form": {
+                "fields": [
+                    {
+                        "key": "accessToken",
+                        "label": "Access token",
+                        "type": "text",
+                        "bindable": true,
+                        "required": true
+                    },
+                    {
+                        "key": "refreshToken",
+                        "label": "Refresh token",
+                        "type": "text",
+                        "bindable": true
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Logout",
+            "code": "logout"
+        }
+    ]
+}
