@@ -96,10 +96,7 @@
                     },
                     {
                         "field": "refreshType",
-                        "oneOf": [
-                            "custom-body",
-                            "custom-header"
-                        ]
+                        "oneOf": ["custom-body", "custom-header"]
                     }
                 ],
                 "storage": "publicData"
