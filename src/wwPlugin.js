@@ -7,6 +7,21 @@ import './components/Functions/StoreToken.vue';
 const ACCESS_COOKIE_NAME = 'ww-auth-access-token';
 const REFRESH_COOKIE_NAME = 'ww-auth-refresh-token';
 
+// Published applications keep their configured cookie persistence. Each isolated
+// project has its own origin, and preview credentials last for the current tab.
+function tokenStorage() {
+    /* wwEditor:start */
+    if (wwLib.editor?.isolatedCanvas) {
+        return {
+            getCookie: key => window.sessionStorage.getItem(key),
+            setCookie: (key, value) => window.sessionStorage.setItem(key, value),
+            removeCookie: key => window.sessionStorage.removeItem(key),
+        };
+    }
+    /* wwEditor:end */
+    return window.vm.config.globalProperties.$cookie;
+}
+
 export default {
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
@@ -43,8 +58,9 @@ export default {
         });
     },
     async _initAuth() {
-        const accessToken = window.vm.config.globalProperties.$cookie.getCookie(ACCESS_COOKIE_NAME);
-        const refreshToken = window.vm.config.globalProperties.$cookie.getCookie(REFRESH_COOKIE_NAME);
+        const storage = tokenStorage();
+        const accessToken = storage.getCookie(ACCESS_COOKIE_NAME);
+        const refreshToken = storage.getCookie(REFRESH_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, refreshToken);
 
@@ -60,15 +76,16 @@ export default {
         Auth Token API
     \================================================================================================*/
     storeToken({ accessToken, refreshToken }) {
+        const storage = tokenStorage();
         if (accessToken) {
-            window.vm.config.globalProperties.$cookie.setCookie(ACCESS_COOKIE_NAME, accessToken, {
+            storage.setCookie(ACCESS_COOKIE_NAME, accessToken, {
                 expire: '1y',
                 secure: true,
             });
             wwLib.wwVariable.updateValue(`${this.id}-accessToken`, accessToken);
         }
         if (refreshToken) {
-            window.vm.config.globalProperties.$cookie.setCookie(REFRESH_COOKIE_NAME, refreshToken, {
+            storage.setCookie(REFRESH_COOKIE_NAME, refreshToken, {
                 expire: '1y',
                 secure: true,
             });
@@ -76,9 +93,10 @@ export default {
         }
     },
     removeToken() {
-        window.vm.config.globalProperties.$cookie.removeCookie(ACCESS_COOKIE_NAME);
+        const storage = tokenStorage();
+        storage.removeCookie(ACCESS_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-accessToken`, null);
-        window.vm.config.globalProperties.$cookie.removeCookie(REFRESH_COOKIE_NAME);
+        storage.removeCookie(REFRESH_COOKIE_NAME);
         wwLib.wwVariable.updateValue(`${this.id}-refreshToken`, null);
     },
     async fetchUser() {
